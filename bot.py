@@ -8,14 +8,25 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = lightbulb.BotApp(
     token=TOKEN,
-     default_enabled_guilds=(941897030765264938)
+    default_enabled_guilds=(941897030765264938)
 )
 
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def print_msg(event):
-    if(event.get_member() != bot.fetch_owner_ids()):
-        channel = event.get_channel()
-        await channel.send(event.content)
+    if(str(event.get_member()) != 'Intx_PR#9657'):
+        await event.get_channel().send(event.content)
+
+@bot.command
+@lightbulb.command('stored', 'Test storing info')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def recall(ctx):
+    fileRead = open('botStore', 'r')
+    file = fileRead.read()
+    print(file)
+    print(file[0])
+    for line in file:
+        await ctx.respond(line)
+    await ctx.respond('done') 
 
 @bot.command
 @lightbulb.command('yes', 'Says yes')
