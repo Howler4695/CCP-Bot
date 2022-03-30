@@ -11,10 +11,23 @@ bot = lightbulb.BotApp(
     default_enabled_guilds=(941897030765264938)
 )
 
+
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def print_msg(event):
-    if(str(event.get_member()) != 'Intx_PR#9657'):
-        await event.get_channel().send(event.content)
+    msgSender = event.get_member()
+    print(event.content)
+    print(msgSender.role_ids & msgSender.is_bot() == False)
+    #msgSender != 'CCP Bot#6948' FIX
+    #if(msgSender == 'Intx_PR#9657'):
+      #  await event.get_channel().send(event.content)
+
+@bot.command
+@lightbulb.command('torture', 'Sets role or user to torture')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def torture(ctx):
+    guild = ctx.get_guild()
+    members = guild.get_members()
+    print(members)
 
 @bot.command
 @lightbulb.command('stored', 'Test storing info')
