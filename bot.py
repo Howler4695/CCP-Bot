@@ -16,8 +16,7 @@ userTorture = []
 roleTorture = []
 
 bot = lightbulb.BotApp(
-    token=TOKEN,
-    default_enabled_guilds=(941897030765264938)
+    token=TOKEN
 )
 
 @bot.listen(hikari.StartedEvent)
@@ -28,9 +27,6 @@ async def _intializeBot(event):
 @bot.listen(hikari.GuildMessageCreateEvent)
 async def copy_msg(event):
     msgSender = event.get_member()
-    print(event.content)
-    print(msgSender.id)
-    print(msgSender.role_ids)
     msgSenderId = str(msgSender.id)
     canTorture = False
     print(userTorture)
@@ -43,12 +39,8 @@ async def copy_msg(event):
             if(role in msgSender.role_ids):
                 canTorture = True
                 break
-    print(canTorture)
-    print(msgSender.is_bot)
-    print(canTorture and not msgSender.is_bot)
     if(canTorture and not msgSender.is_bot):
         await event.get_channel().send(event.content)
-        print('printed')
 
 @bot.command
 @lightbulb.command('torture', 'Torture either a user or role')
@@ -63,14 +55,13 @@ async def group_torture(ctx):
 @lightbulb.implements(lightbulb.SlashSubCommand)
 async def tortureUser(ctx):
     #FIX: Rough apply by substring
-    print(ctx.options.user_id)
     userId = ctx.options.user_id
     if(userId[0] == '<' and userId[len(userId)-1] == '>'):
         userId = userId[3:len(userId)-1]
-        print(userId)
     with open('userTortureReg', 'a') as fileWrite:
-        fileWrite.write('{newLine}'.format(newLine='\n' if len(userTorture) != 0 else str()) + userId)
+        fileWrite.write('{newLine}'.format(newLine='\n' if len(userTorture) != 0 else '') + userId)
     _initializeTortureTargets()
+    await ctx.respond(f'<@!{userId}> is now being TORTURED')
 
 
     
@@ -132,7 +123,6 @@ def _initializeTortureTargets():
         for role in fileRead:
             if (role.strip() not in roleTorture):
                 roleTorture.append(role.strip())
-
     print(userTorture)
     print(roleTorture)
 
