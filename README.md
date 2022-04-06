@@ -6,9 +6,9 @@ Keep our servers clean of **CAPITALIST** influence. Will include social credit s
 3. (term) python -m venv env
 4. (term) .\env\Scripts\activate
 5. (term) python -m pip install -U hikari
-6. (term) python -m pip install -U python-lightbulb
+6. (term) python -m pip install -U hikari-lightbulb
 7. (term) python -m pip isntall -U python-dotenv
-8. (term) bot.py
+8. (term) python bot.py
 ## Using Hikari
 Documentation: https://www.hikari-py.dev/hikari/
 ## Joining Testing Grounds
